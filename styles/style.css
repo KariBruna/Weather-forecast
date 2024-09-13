@@ -1,23 +1,68 @@
-body {
-  background-color: red;
+* {
+  box-sizing: border-box;
 }
 
 @font-face {
   font-family: "Roboto";
-  src: url("../assets/fonts/Roboto-Regular.woff2");
+  src: url("../assets/fonts/Roboto-Regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
   font-display: swap;
-
 }
+
 @font-face {
   font-family: "Roboto";
-  src: url("../assets/fonts/Roboto-Bold.woff2");
+  src: url("../assets/fonts/Roboto-Bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
-  font-display: swap;
+  font-display: swap; 
 }
 
 .custom-font {
   font-family: 'Roboto', Arial, sans-serif;
 }
+
+body {
+  font-family: "Roboto";
+  margin: 0 auto;
+  background-color: #000000;
+  color: #ffffff;
+  font-size: 20px;
+
+  .container {
+    width: 600px;
+    margin: 10px auto;
+    text-align: center;
+    
+    .title {
+      font-size: 32px;
+      background-color: #746A6A;
+      padding: 5px;
+      margin: 0;
+    }
+    
+    .table {
+      width: 600px;
+      background-color: #2D2D46;
+      /* border: 3px solid #fff; */
+    
+      .city {
+        font-size: 32px;
+        font-weight: 700;
+      }
+      
+      .table-cell {
+        width: 200px;
+        /* border: 3px solid green; */
+        height: 100px;
+      }
+    }
+  }
+}
+
+
+
+
+
+
+

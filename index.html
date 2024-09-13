@@ -1,20 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Weather-forecast</title>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather-forecast</title>
 
-  <link rel="stylesheet" href="./styles/normalize.css">
-  <link rel="stylesheet" href="./styles/style.css">
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="./assets/fonts/Roboto-Regular.woff2">
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="./assets/fonts/Roboto-Bold.woff2">
+    <link rel="stylesheet" href="./styles/normalize.css">
+    <link rel="stylesheet" href="./styles/style.css">
 
-
-  <script type="module" src="./js/main.js"></script>
-  
-</head>
-<body>
-  
-</body>
+    <script type="module" src="./js/main.js"></script>
+  </head>
+  <body class="body">
+    <div class="container">
+      <h1 class="title">OpenWeather API</h1>
+      <table class="table">
+        <tbody class="table-body" id="tableBody">
+          <!-- The data for this table will be insert by the script -->
+          <!-- <tr class="table-row">
+            <td class="table-cell city">Kyiv</td>
+            <td class="table-cell">
+              <span class="temp">4</span><span class="sign">°</span><br/>
+              <span class="description">overcast clouds</span>
+            </td>
+            <td class="table-cell">
+              <img src="" alt="" class="img">
+            </td>
+          </tr> -->
+          <!-- <tr class="table-row">
+            <td class="table-cell city">London</td>
+            <td class="table-cell">
+              <span class="temp">6</span><span class="sign">°</span><br/>
+              <span class="description">clear sky</span>
+            </td>
+            <td class="table-cell">
+              <img src="" alt="">
+            </td>
+          </tr>
+          <tr class="table-row">
+            <td class="table-cell city">New York</td>
+            <td class="table-cell">
+              <span class="temp">7</span><span class="sign">°</span><br/>
+              <span class="description">overcast clouds</span>
+            </td>
+            <td class="table-cell">
+              <img src="" alt="">
+            </td>
+          </tr> -->
+        </tbody>
+      </table>
+    </div>
+  </body>
 </html>
