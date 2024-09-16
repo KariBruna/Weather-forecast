@@ -30,7 +30,7 @@ body {
   font-size: 20px;
 
   .container {
-    width: 600px;
+    width: 800px;
     margin: 10px auto;
     text-align: center;
     
@@ -40,9 +40,14 @@ body {
       padding: 5px;
       margin: 0;
     }
+
+    .temp-measure {
+      padding: 10px;
+      background-color: #746A6A;
+    }
     
     .table {
-      width: 600px;
+      width: 800px;
       background-color: #2D2D46;
       /* border: 3px solid #fff; */
     

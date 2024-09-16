@@ -12,12 +12,27 @@ window.addEventListener('DOMContentLoaded', () => {
   // const promises = STATE.cities.map(cityID => dataService.getWeatherForecast(cityID));
   // Promise.allSettled(promises);
 
-  STATE.cities.forEach( async (cityId) => {
+  updateForecast(forecastListView);
+
+  const typeTemperature = document.querySelector("#type-temperature");
+  typeTemperature.addEventListener('click', (event) => {
+    console.log(event.target);
+    if(event.target.id === "celsius") {
+      dataService.unitCelsius();
+    } else {
+      dataService.unitFahrenheit();
+    }
+    forecastListView.clearForecast();
+    updateForecast(forecastListView);
+  })
+})
+
+function updateForecast(forecastListView) {
+  STATE.cities.forEach(async (cityId) => {
     const forecast = await dataService.getWeatherForecast(cityId);
     // console.log(forecast);
     const currentForecast = new Forecast(forecast);
     // console.log(currentForecast);
-
     forecastListView.showForecast(currentForecast);
-  })
-})
+  });
+}
