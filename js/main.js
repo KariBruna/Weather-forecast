@@ -15,16 +15,20 @@ window.addEventListener('DOMContentLoaded', () => {
   updateForecast(forecastListView);
 
   const typeTemperature = document.querySelector("#type-temperature");
-  typeTemperature.addEventListener('click', (event) => {
-    console.log(event.target);
-    if(event.target.id === "celsius") {
-      dataService.unitCelsius();
-    } else {
-      dataService.unitFahrenheit();
+  typeTemperature.addEventListener('click', changeTypeTemp);
+    // console.log(event.target);
+    function changeTypeTemp(event) {
+      if(event.target.id === "celsius") {
+        dataService.unitCelsius();
+        forecastListView.clearForecast();
+        updateForecast(forecastListView);
+
+      } else {
+        dataService.unitFahrenheit();  
+        forecastListView.clearForecast();
+        updateForecast(forecastListView);
+      }
     }
-    forecastListView.clearForecast();
-    updateForecast(forecastListView);
-  })
 })
 
 function updateForecast(forecastListView) {
@@ -35,4 +39,17 @@ function updateForecast(forecastListView) {
     // console.log(currentForecast);
     forecastListView.showForecast(currentForecast);
   });
+
+    const forecastTableBody = document.querySelector("#tableBody");
+    forecastTableBody.addEventListener('click', (event) => {
+    (async function () {
+//       forecastListView.clearSelectedForecast(); //clear forecast of clicked row 
+      
+//     const dataForecast = await dataService.getWeatherForecast(cityId); 
+//     const forecastFewDays = new Forecast(dataForecast);
+//     forecastListView.showForecastFewDays(forecastFewDays);
+    })();
+})
 }
+
+

@@ -13,4 +13,13 @@ export class ForecastListView {
   clearForecast() {
     this.#forecastTableBody.innerHTML = "";
   }
+
+  //delete row with current city's data, excl. the city 
+  // clearSelectedForecast() {  
+  //   this.#forecastTableBody.
+  // }
+
+  showForecastFewDays(item) {
+    this.#forecastTableBody.append(item.createElementFewDays());
+  }
 }

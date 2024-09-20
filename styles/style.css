@@ -49,16 +49,15 @@ body {
     .table {
       width: 800px;
       background-color: #2D2D46;
-      /* border: 3px solid #fff; */
     
       .city {
         font-size: 32px;
         font-weight: 700;
+        cursor: pointer;
       }
       
       .table-cell {
         width: 200px;
-        /* border: 3px solid green; */
         height: 100px;
       }
     }
