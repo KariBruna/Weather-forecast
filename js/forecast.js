@@ -1,5 +1,5 @@
 export class Forecast {
-  constructor({name, main, weather, wind, sys}) {
+  constructor({name, main, weather, wind, sys, dt}, cityId) {
     this.name = name;
     this.temp = Math.round(main.temp);
     this.description = weather[0].description;
@@ -10,6 +10,10 @@ export class Forecast {
     this.pressure = this.convertPressure(main.pressure);
     this.sunrise = this.convertTime(sys.sunrise);
     this.sunset = this.convertTime(sys.sunset);
+    this.dateFull = this.convertDate(dt);
+    this.tempMin = Math.round(main.temp_min);
+    this.tempMax = Math.round(main.temp_max);
+    this.cityId = cityId;
   }
 
     convertTime(time) {
@@ -18,6 +22,15 @@ export class Forecast {
       var minutes = date.getMinutes().toString().padStart(2, '0');
 
       return `${hours}:${minutes}`;
+    }
+
+    convertDate(date) {
+      var dateForecast = new Date(date * 1000);
+      var day = dateForecast.getDate().toString().padStart(2, '0');
+      var month = (dateForecast.getMonth() + 1).toString().padStart(2, '0'); //to plus 1 due to method return values from 0 to 11
+      var year = dateForecast.getFullYear();
+
+      return `${day}.${month}.${year}`;
     }
 
     convertWindDeg(windDir) {
@@ -35,12 +48,74 @@ export class Forecast {
     convertPressure(pressure) {
       return (Math.round(pressure*0.750062));
     }
+
+    static minMaxTemp(list) {
+      // let arrayDataForecast1 = list.filter(function(item) {
+      //   const date = new Date(item.dt * 1000);
+      //   const day = date.getDate();
+      //   const month = (date.getMonth() + 1).toString().padStart(2, '0');;
+      //   const year = date.getFullYear();
+      //   const fullDate = `${day} ${month} ${year}`;
+      //   const currentDate = new Date();
+      //   const currentDay = currentDate.getDate();
+      //   const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');;
+      //   const currentYear = currentDate.getFullYear();
+      //   const currentFullDate = `${currentDay} ${currentMonth} ${currentYear}`;
+      //   return fullDate === currentFullDate;
+      const currentDate = new Date(list[0].dt * 1000);
+      const currentDay = currentDate.getDate();
+      const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');;
+      const currentYear = currentDate.getFullYear();
+      // const currentFullDate = `${currentDay} ${currentMonth} ${currentYear}`;
+
+      const arrayFiveDays = []; // 
+      let dailyForecast = [];
+      for(let i = 0; i < 5; i++) {
+        const nextDay = new Date(currentDate);
+        arrayFiveDays.push(nextDay); //array for 5 days date
+        currentDate.setDate(currentDate.getDate() + 1); //set next day after current
+
+      //get array with date for day which is equal nextDay. arrayList - array of several time's values for a day.
+      const arrayList = list.filter((function (item) {
+        const itemDate = new Date(item.dt * 1000);
+        return Forecast.compareDates(itemDate, nextDay);
+      }));
+
+      let aaa = 0;
   
-  createElement() {
+      //determinate min and max temp for day
+      let elementMin = arrayList.map((item) => item.main.temp_min);  
+      const minimum = Math.min(...elementMin);
+      
+      let elementMax = arrayList.map((item) => item.main.temp_max); 
+      const maximum = Math.max(...elementMax);
+
+      
+      dailyForecast.push(arrayList[0]);
+      arrayList[0].main.temp_min = minimum;
+      arrayList[0].main.temp_max = maximum;
+    }
+
+
+    return dailyForecast;
+  }
+
+      static compareDates(date1, date2) {
+        const day1 = date1.getUTCDate();
+        const month1 = date1.getUTCMonth();
+        const year1 = date1.getUTCFullYear();
+        const day2 = date2.getUTCDate();
+        const month2 = date2.getUTCMonth();
+        const year2 = date2.getUTCFullYear();
+
+        return day1 === day2 && month1 === month2 && year1 === year2;
+      }
+  
+    createElement() {
     const tr = document.createElement('tr');
 
     tr.insertAdjacentHTML('beforeend',
-      `       <td class="table-cell city" id="cityForecast${this.name}">${this.name}</td> 
+      `       <td class="table-cell city" id="${this.cityId}">${this.name}</td> 
               <td class="table-cell">
                 <span class="temp">${this.temp}</span><span class="sign">°</span><br/>
                 <span class="description">${this.description}</span><br/>
@@ -61,28 +136,18 @@ export class Forecast {
               </td>
       `
     )
-
     return tr;
   }
   
-  createElementFewDays() {
-    const tr = document.createElement('tr');
-
+  createElementFewDays(tr) {
     tr.insertAdjacentHTML('beforeend',
-      `       <td class="table-cell city" id="cityForecast${this.name}">${this.name}</td> 
-              <td class="table-cell">
-                <span class="temp">${this.temp}</span><span class="sign">°</span><br/>
-                <span class="description">${this.description}</span><br/>
-                <span class="description">Wind speed: ${this.windSpeed}m/sec</span><br/>
-                <span class="description">Wind: ${this.windDir}</span>
-                <span class="description">Pressure: ${this.pressure} hPa</span>
-                <span class="description">Sunrise: ${this.sunrise}</span>
-                <span class="description">Sunset: ${this.sunset}</span>
+      `       <td class="table-cell" id="cityForecast${this.name}">${this.dateFull} 
+                <span class="description">Min: ${this.tempMin}°</span><br/>
+                <span class="description">Max: ${this.tempMax}°</span>
                   <img src="http://openweathermap.org/img/wn/${this.icon}@2x.png" alt="${this.alt}" class="img">
                 </td>
       `
     )
-
     return tr;
   }
 }

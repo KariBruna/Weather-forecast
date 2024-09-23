@@ -35,20 +35,28 @@ function updateForecast(forecastListView) {
   STATE.cities.forEach(async (cityId) => {
     const forecast = await dataService.getWeatherForecast(cityId);
     // console.log(forecast);
-    const currentForecast = new Forecast(forecast);
+    const currentForecast = new Forecast(forecast, cityId);
     // console.log(currentForecast);
     forecastListView.showForecast(currentForecast);
   });
 
     const forecastTableBody = document.querySelector("#tableBody");
     forecastTableBody.addEventListener('click', (event) => {
-    (async function () {
-//       forecastListView.clearSelectedForecast(); //clear forecast of clicked row 
+    (async function (e) {
+      let tr = e.target.parentNode; //tag tr
+      forecastListView.clearSelectedForecast(tr); //clear forecast of clicked row 
+      const cityId = e.target.id;
+      const dataForecast = await dataService.getWeatherForecastNextDays(cityId); 
+      // const qqqqq = dataForecast.list[0];
+      for(let i = 0; i < 5; i++) {
+        // const dataCounterDays = dataForecast.list[i];
+        const forecastActually = Forecast.minMaxTemp(dataForecast.list);
+        const forecastNextDays = new Forecast(forecastActually[i], cityId);
+        
+        forecastListView.showForecastFewDays(tr, forecastNextDays);
+      }
       
-//     const dataForecast = await dataService.getWeatherForecast(cityId); 
-//     const forecastFewDays = new Forecast(dataForecast);
-//     forecastListView.showForecastFewDays(forecastFewDays);
-    })();
+    })(event);
 })
 }
 
