@@ -50,32 +50,18 @@ export class Forecast {
     }
 
     static minMaxTemp(list) {
-      // let arrayDataForecast1 = list.filter(function(item) {
-      //   const date = new Date(item.dt * 1000);
-      //   const day = date.getDate();
-      //   const month = (date.getMonth() + 1).toString().padStart(2, '0');;
-      //   const year = date.getFullYear();
-      //   const fullDate = `${day} ${month} ${year}`;
-      //   const currentDate = new Date();
-      //   const currentDay = currentDate.getDate();
-      //   const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');;
-      //   const currentYear = currentDate.getFullYear();
-      //   const currentFullDate = `${currentDay} ${currentMonth} ${currentYear}`;
-      //   return fullDate === currentFullDate;
       const currentDate = new Date(list[0].dt * 1000);
-      const currentDay = currentDate.getDate();
-      const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');;
-      const currentYear = currentDate.getFullYear();
-      // const currentFullDate = `${currentDay} ${currentMonth} ${currentYear}`;
-
-      const arrayFiveDays = []; // 
-      let dailyForecast = [];
+      // const currentDay = currentDate.getDate();
+      // const currentMonth = (currentDate.getMonth() + 1).toString().padStart(2, '0');;
+      // const currentYear = currentDate.getFullYear();
+      const arrayFiveDays = []; 
+      const dailyForecast = [];
       for(let i = 0; i < 5; i++) {
         const nextDay = new Date(currentDate);
-        arrayFiveDays.push(nextDay); //array for 5 days date
+        arrayFiveDays.push(nextDay); //array of dates for 5 days
         currentDate.setDate(currentDate.getDate() + 1); //set next day after current
 
-      //get array with date for day which is equal nextDay. arrayList - array of several time's values for a day.
+      //get array with date for a day which is equal array nextDay. arrayList - array of several time's values for a day.
       const arrayList = list.filter((function (item) {
         const itemDate = new Date(item.dt * 1000);
         return Forecast.compareDates(itemDate, nextDay);
@@ -83,33 +69,32 @@ export class Forecast {
 
       let aaa = 0;
   
-      //determinate min and max temp for day
+      //determine min and max temp for day
       let elementMin = arrayList.map((item) => item.main.temp_min);  
       const minimum = Math.min(...elementMin);
       
       let elementMax = arrayList.map((item) => item.main.temp_max); 
       const maximum = Math.max(...elementMax);
 
-      
+      //array with daily data (date, min temp and max temp)
       dailyForecast.push(arrayList[0]);
       arrayList[0].main.temp_min = minimum;
       arrayList[0].main.temp_max = maximum;
     }
-
-
     return dailyForecast;
   }
 
-      static compareDates(date1, date2) {
-        const day1 = date1.getUTCDate();
-        const month1 = date1.getUTCMonth();
-        const year1 = date1.getUTCFullYear();
-        const day2 = date2.getUTCDate();
-        const month2 = date2.getUTCMonth();
-        const year2 = date2.getUTCFullYear();
+    //compare itemDay which takes from list for all days forecast in api and nextDay, which takes from currentDay
+    static compareDates(date1, date2) {
+      const day1 = date1.getUTCDate();
+      const month1 = date1.getUTCMonth();
+      const year1 = date1.getUTCFullYear();
+      const day2 = date2.getUTCDate();
+      const month2 = date2.getUTCMonth();
+      const year2 = date2.getUTCFullYear();
 
-        return day1 === day2 && month1 === month2 && year1 === year2;
-      }
+      return day1 === day2 && month1 === month2 && year1 === year2;
+    }
   
     createElement() {
     const tr = document.createElement('tr');
@@ -144,7 +129,7 @@ export class Forecast {
       `       <td class="table-cell" id="cityForecast${this.name}">${this.dateFull} 
                 <span class="description">Min: ${this.tempMin}°</span><br/>
                 <span class="description">Max: ${this.tempMax}°</span>
-                  <img src="http://openweathermap.org/img/wn/${this.icon}@2x.png" alt="${this.alt}" class="img">
+                
                 </td>
       `
     )
