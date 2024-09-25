@@ -9,8 +9,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
   const forecastListView = new ForecastListView('#tableBody');
 
-  // const promises = STATE.cities.map(cityID => dataService.getWeatherForecast(cityID));
-  // Promise.allSettled(promises);
   updateForecast(forecastListView);
   
   const typeTemperature = document.querySelector("#type-temperature");
@@ -32,10 +30,17 @@ window.addEventListener('DOMContentLoaded', () => {
 })
       let check = false;
     function updateForecast(forecastListView) {
-      STATE.cities.forEach(async (cityId) => {
-        const forecast = await dataService.getWeatherForecast(cityId);
-        const currentForecast = new Forecast(forecast, cityId);
-        forecastListView.showForecast(currentForecast);
+      const promises = STATE.cities.map(cityID => dataService.getWeatherForecast(cityID));
+      Promise.allSettled(promises).then((results) => {
+        
+          console.log(results);
+          results.forEach((result) => 
+          {
+              const currentForecast = new Forecast(result.value, result.value.id);
+              forecastListView.showForecast(currentForecast);
+              
+          }
+        );
       });
 
     const forecastTableBody = document.querySelector("#tableBody");
